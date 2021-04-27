@@ -1,4 +1,4 @@
-import { Controller,Post,Body,Get,Param,Patch,Delete,HttpStatus } from '@nestjs/common';
+import { Controller,Post,Body,Get,Param,Patch,Delete ,HttpStatus } from '@nestjs/common';
 import { Product } from './product.model';
 import { ProductsService}from './products.service'
 
@@ -30,6 +30,11 @@ export class ProductsController {
         const products = await this.productsService.getProducts();
         return products ;
     } 
+    @Get('/get/:id')
+    async  getProductById (@Param('id') id) {
+        const product = await this.productsService.getSingleProduct(id);
+        return product ;
+    } 
 
     @Post('/remove')
     async removeProduct(
@@ -42,6 +47,22 @@ export class ProductsController {
             statusCode: HttpStatus.OK,
             message: 'Product  deleted successfully',
           
+        };
+    }
+    @Post('/update')
+    async updateProduct(
+        @Body() product: Product,
+        
+    ) {
+        
+        const addProduct = await this.productsService.updateProduct(
+            product
+        );
+      
+        return {
+            statusCode: HttpStatus.OK,
+            message: 'Product  updated successfully',
+            data: addProduct,
         };
     }
 

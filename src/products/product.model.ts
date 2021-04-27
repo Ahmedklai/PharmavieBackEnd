@@ -21,6 +21,7 @@ export const ProductsSchema = new mongoose.Schema({
 
 export interface Product extends mongoose.Document {
   id: string;
+  createdAt: string;
   name: string;
   description: string;
   publicPrice: number;
