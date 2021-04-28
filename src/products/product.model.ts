@@ -1,6 +1,10 @@
 import * as mongoose from 'mongoose';
+import {Entity} from 'typeorm' ;
 
-export const ProductsSchema = new mongoose.Schema({
+
+
+
+export const ProductsSchema =  new mongoose.Schema({
    name: { type: String, required: true  },
    description: { type: String, required: true },
    publicPrice: { type: Number, required: true },
@@ -10,6 +14,7 @@ export const ProductsSchema = new mongoose.Schema({
    dosage: { type: String,  },
    form: { type: String,  },
    presentation: { type: String,  },
+   
    therapeutiClass : { type: String,  },
    subClass: { type: String,  },
    specification: { type: String,  },
@@ -18,6 +23,7 @@ export const ProductsSchema = new mongoose.Schema({
    contreIndications: { type: String, },
    tableOfContent : { type: String,  },
 });
+
 
 export interface Product extends mongoose.Document {
   id: string;
