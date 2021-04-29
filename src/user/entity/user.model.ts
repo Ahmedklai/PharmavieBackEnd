@@ -4,7 +4,7 @@ import * as mongoose from 'mongoose';
 
 
 export const UserSchema =  new mongoose.Schema({
-   userName: { type: String, required: true  },
+   userName: { type: String,  },
    email: { type: String, 
     required: true , lowercase: true,
     maxlength: 255,
@@ -13,7 +13,7 @@ export const UserSchema =  new mongoose.Schema({
    password : { type: String, required: true },
  
 
-});
+} , { timestamps: true });
 
 
 export interface User extends mongoose.Document {
