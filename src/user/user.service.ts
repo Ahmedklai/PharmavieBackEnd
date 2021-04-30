@@ -4,14 +4,19 @@ import { Model } from 'mongoose';
 import { CreateUserDto } from './dto/creatUser.dto';
 import { User } from './entity/user.model';
 import * as bcrypt from 'bcrypt';
+
 import { LoginUserDto } from './dto/loginUser.dto';
+import { AuthService } from 'src/auth/auth.service';
 @Injectable()
 export class UserService {
   
+  
     constructor(
 
-        @InjectModel('User') private readonly userModel: Model<User>,
-
+        @InjectModel('User') 
+        private readonly userModel: Model<User>,
+       
+        private readonly authService: AuthService,
     ) {
 
     }
@@ -21,8 +26,16 @@ export class UserService {
     // └─┘┴└─└─┘┴ ┴ ┴ └─┘  └─┘└─┘└─┘┴└─
 
     
-    async register(userData: CreateUserDto): Promise<Partial<User>> {
-        const user =  await this.userModel.create({
+    async register(userData: CreateUserDto): Promise<any> {
+      const email = userData.email ;
+      const userName = userData.userName ;
+        
+        
+         if (await this.userModel.findOne({email}))
+         throw new ConflictException(`Le username et le email doivent être unique`);
+         if (await this.userModel.findOne({userName}))
+         throw new ConflictException(`Le username et le email doivent être unique`);
+         const user =  await this.userModel.create({
           ...userData
         });
         
@@ -34,10 +47,8 @@ export class UserService {
           throw new ConflictException(`Le username et le email doivent être unique`);
         }
         return {
-          id: user.id,
-          userName: user.userName ,
-          email: user.email ,
-          password: user.password
+          
+          accessToken: await this.authService.createAccessToken(user._id),
         };
       }
 
@@ -55,6 +66,7 @@ export class UserService {
         return {
             userName: user.userName,
             email: user.email,
+            role :user.role ,
             // accessToken: await this.authService.createAccessToken(user._id),
             // refreshToken: await this.authService.createRefreshToken(req, user._id),
         };

@@ -3,10 +3,14 @@ import { UserService } from './user.service';
 import { UserController } from './user.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UserSchema } from './entity/user.model';
+import { AuthModule } from 'src/auth/auth.module';
+import { JwtStrategy } from 'src/auth/strategies/jwt.strategy';
 
 @Module({
-  imports : [MongooseModule.forFeature([{name : 'User' , schema : UserSchema}])] ,
-  providers: [UserService],
+  imports : [
+    AuthModule,
+    MongooseModule.forFeature([{name : 'User' , schema : UserSchema}])] ,
+  providers: [UserService , JwtStrategy],
   controllers: [UserController]
 })
 export class UserModule {}

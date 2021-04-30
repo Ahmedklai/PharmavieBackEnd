@@ -11,7 +11,10 @@ export const UserSchema =  new mongoose.Schema({
     minlength: 6, },
    salt: { type: String },
    password : { type: String, required: true },
- 
+   role: {
+    type: String,
+    default: 'user',
+},
 
 } , { timestamps: true });
 
@@ -22,6 +25,6 @@ export interface User extends mongoose.Document {
   email: string;
   salt: number;
   password : string ;
-
+  role :string;
 
 }

@@ -22,7 +22,8 @@ export const ProductsSchema =  new mongoose.Schema({
    use: { type: String, },
    contreIndications: { type: String, },
    tableOfContent : { type: String,  },
-});
+ 
+} ,{  timestamps: true,} ,);
 
 
 export interface Product extends mongoose.Document {
