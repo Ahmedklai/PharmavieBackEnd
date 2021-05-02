@@ -4,32 +4,36 @@ import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { Product } from './product.model';
 import { ProductsService}from './products.service'
 import { User } from 'src/user/decorators/user.decorator';
+import { CreateProductDto } from './dto/createProduc.dto';
+import { ApiHeader, ApiParam } from '@nestjs/swagger';
 
 @Controller('products')
 export class ProductsController {
     constructor(private readonly productsService: ProductsService) { }
+     
 
+    @ApiHeader({
+        name: 'Bearer',
+        description: 'the token we need for auth.'
+    })
     @Post('/add')
     @UseGuards(JwtAuthGuard)
     async addProduct(
-        @Body() product: Product,
+        @Body() product: CreateProductDto,
         @User() user ,
         
     ) {
-        console.log(user);
         
-        const addProduct = await this.productsService.insertProduct(
-            product , user
-        );
-      
-        return {
-            statusCode: HttpStatus.OK,
-            message: 'Product  added successfully',
-            data: addProduct,
-        };
+    
+         return await this.productsService.insertProduct(
+            product , user );
+       
     }
 
-
+    @ApiHeader({
+        name: 'Bearer',
+        description: 'the token we need for auth.'
+    })
     @Get('/getAll')
     @UseGuards(JwtAuthGuard)
 
@@ -37,6 +41,12 @@ export class ProductsController {
         const products = await this.productsService.getProducts();
         return products ;
     } 
+
+    @ApiHeader({
+        name: 'Bearer',
+        description: 'the token we need for auth.'
+    })
+    @ApiParam({name: 'id', description: 'id of article we want to get.'})
     @Get('/get/:id')
     @UseGuards(JwtAuthGuard)
     async  getProductById (@Param('id') id) {
@@ -50,11 +60,16 @@ export class ProductsController {
         return product ;
     } 
 
-    @Delete('/remove')
+    @ApiHeader({
+        name: 'Bearer',
+        description: 'the token we need for auth.'
+    })
+    @ApiParam({name: 'id', description: 'id of article we want to delete.'})
+    @Delete('/remove/:id')
     @UseGuards(JwtAuthGuard)
     async removeProduct(
         @User() user ,
-        @Body() id: string,
+        @Param('id') id
         
     ) {
     console.log(user) ;
@@ -65,6 +80,13 @@ export class ProductsController {
           
         };
     }
+
+
+     @ApiHeader({
+        name: 'Bearer',
+        description: 'the token we need for auth.'
+    })
+    @ApiParam({name: 'Product', description: 'Product body y compris lid'})
     @Put('/update')
     @UseGuards(JwtAuthGuard)
     async updateProduct(

@@ -1,8 +1,4 @@
 import * as mongoose from 'mongoose';
-import {Entity} from 'typeorm' ;
-
-
-
 
 export const ProductsSchema =  new mongoose.Schema({
    name: { type: String, required: true  },
@@ -27,6 +23,7 @@ export const ProductsSchema =  new mongoose.Schema({
 
 
 export interface Product extends mongoose.Document {
+  
   id: string;
   createdAt: string;
   name: string;

@@ -2,6 +2,7 @@ import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/co
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { User } from 'src/user/entity/user.model';
+import { CreateProductDto } from './dto/createProduc.dto';
 
 import { Product } from './product.model';
 @Injectable()
@@ -9,14 +10,21 @@ export class ProductsService {
 
   constructor (@InjectModel('Product') private readonly productModel : Model<Product>) {}
   
-  async insertProduct(product : Product , user : User) {
+  async insertProduct(product : CreateProductDto , user : User) {
   if(user.role == 'admin') {
 
-    var obj = JSON.parse(JSON.stringify(product));
-    const newProduct = new this.productModel(
-      obj
-    );
-    newProduct.save();
+    let newProduct ;
+    
+    try {
+      
+      var obj = JSON.parse(JSON.stringify(product));
+       newProduct = new this.productModel(
+        obj )
+      newProduct.save()}
+    catch (e) {
+     return e ;
+    }
+    
     return newProduct;
   }
 
