@@ -31,10 +31,10 @@ export class UserService {
       const userName = userData.userName ;
         
         
-         if (await this.userModel.findOne({email}))
-         throw new ConflictException(`Le username et le email doivent être unique`);
-         if (await this.userModel.findOne({userName}))
-         throw new ConflictException(`Le username et le email doivent être unique`);
+         if (await this.userModel.findOne({email}) || await this.userModel.findOne({userName}))
+         
+         throw new NotFoundException(`Le username et le email doivent être unique` , `Le username et le email doivent être unique`);
+
          const user =  await this.userModel.create({
           ...userData
         });
@@ -59,7 +59,7 @@ export class UserService {
  async login( userData: LoginUserDto) {
  
   const user = await this.findUserByEmail(userData.email);
-        console.log(user);
+      
      
         await this.checkPassword(userData.password, user);
         await user.save();
