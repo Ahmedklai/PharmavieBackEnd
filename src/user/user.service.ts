@@ -64,11 +64,7 @@ export class UserService {
         await this.checkPassword(userData.password, user);
         await user.save();
         return {
-            userName: user.userName,
-            email: user.email,
-            role :user.role ,
-            // accessToken: await this.authService.createAccessToken(user._id),
-            // refreshToken: await this.authService.createRefreshToken(req, user._id),
+          accessToken: await this.authService.createAccessToken(user._id),
         };
     }
     
