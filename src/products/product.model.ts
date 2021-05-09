@@ -1,5 +1,5 @@
 import * as mongoose from 'mongoose';
-
+import mongoosePaginate from 'mongoose-paginate';
 export const ProductsSchema =  new mongoose.Schema({
    name: { type: String, required: true  },
    description: { type: String, required: true },
@@ -20,6 +20,7 @@ export const ProductsSchema =  new mongoose.Schema({
    tableOfContent : { type: String,  },
  
 } ,{  timestamps: true,} ,);
+
 
 
 export interface Product extends mongoose.Document {

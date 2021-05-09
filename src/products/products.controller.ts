@@ -6,6 +6,7 @@ import { ProductsService}from './products.service'
 import { User } from 'src/user/decorators/user.decorator';
 import { CreateProductDto } from './dto/createProduc.dto';
 import { ApiHeader, ApiParam } from '@nestjs/swagger';
+import { QueryConfigDto } from './dto/queryConfig.dto';
 
 @Controller('products')
 export class ProductsController {
@@ -37,8 +38,8 @@ export class ProductsController {
     @Get('/getAll')
     @UseGuards(JwtAuthGuard)
 
-    async  getAllProducts () {
-        const products = await this.productsService.getProducts();
+    async  getAllProducts (@Req() req) {
+        const products = await this.productsService.getProducts(req.query);
         return products ;
     } 
 
