@@ -91,6 +91,8 @@ export class ProductsService {
       isPromotion: product.isPromotion,
       isBestSelling: product.isBestSelling,
       laboratory: product.laboratory,
+      tableOfContent :   product.tableOfContent
+      
     }));
   }
 

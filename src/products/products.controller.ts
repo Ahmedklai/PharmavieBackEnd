@@ -105,4 +105,13 @@ export class ProductsController {
       data: promotions,
     };
   }
+  @Get('/bestSelling')
+  async getbest(@Query() query: QueryConfigDto) {
+    const promotions = await this.productsService.getBestSelling(query);
+    return {
+      statusCode: HttpStatus.OK,
+      message: 'promotions are here',
+      data: promotions,
+    };
+  }
 }
