@@ -15,7 +15,7 @@ const mongoPort = process.env.MONGO_PORT;
 
 
 @Module({
-  imports: [ MongooseModule.forRoot('mongodb://admin:password@localhost:27017') , ProductsModule, AuthModule , UserModule],
+  imports: [ MongooseModule.forRoot('mongodb://admin:password@localhost:27017') , ProductsModule, AuthModule , UserModule, PharmacieModule],
   controllers: [AppController ],
   providers: [AppService],
 })
