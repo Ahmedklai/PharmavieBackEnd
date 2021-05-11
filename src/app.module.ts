@@ -7,6 +7,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ProductsModule } from './products/products.module';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
+import { PharmacieModule } from './pharmacie/pharmacie.module';
 const mongoUser = process.env.MONGO_USER;
 const mongoPassword = process.env.MONGO_PASSWORD;
 const mongoHostname = process.env.MONGO_HOSTNAME;
