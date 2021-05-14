@@ -1,5 +1,6 @@
 import * as mongoose from 'mongoose';
 import mongoosePaginate from 'mongoose-paginate';
+import { Pharmacie, PharmacieSchema } from 'src/pharmacie/pharmacie.model';
 const ContentScema = new mongoose.Schema({
   vitamine: { type: String, required: true },
   percentage: { type: Number, required: true },
@@ -24,6 +25,7 @@ export const ProductsSchema = new mongoose.Schema(
     specification: { type: String },
     DurationOfConversation: { type: String },
     use: { type: String },
+    pharmacies: { type: [PharmacieSchema]},
     contreIndications: { type: String },
     tableOfContent: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Content' }],
     isBestSelling: { type: Boolean },
