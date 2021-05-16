@@ -55,4 +55,5 @@ export interface Product extends mongoose.Document {
   tableOfContent: [{ vitamine: string; percentage: number }];
   newPrice: number;
   isBestSelling: number;
+  pharmacies : string[] ;
 }

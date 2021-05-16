@@ -91,10 +91,16 @@ export class ProductsService {
       isPromotion: product.isPromotion,
       isBestSelling: product.isBestSelling,
       laboratory: product.laboratory,
-      tableOfContent :   product.tableOfContent
+      tableOfContent :   product.tableOfContent ,
+      pharmacies : product.pharmacies 
       
     }));
   }
+
+
+
+ 
+
 
   async getSingleProduct(productId: string) {
     const product = await this.findProduct(productId);
