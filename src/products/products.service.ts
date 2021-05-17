@@ -33,6 +33,7 @@ export class ProductsService {
       laboratory: product.laboratory,
       isPromotion: product.isPromotion,
       newPrice: product.newPrice,
+      pharmacies : product.pharmacies 
     }));
   }
   async getBestSelling(options: QueryConfigDto) {
@@ -54,6 +55,7 @@ export class ProductsService {
       laboratory: product.laboratory,
       isPromotion: product.isPromotion,
       newPrice: product.newPrice,
+      pharmacies : product.pharmacies 
     }));
   }
   async insertProduct(product: CreateProductDto, user: User) {
