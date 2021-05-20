@@ -1,16 +1,22 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateUserDto } from './dto/creatUser.dto';
 import { User } from './entity/user.model';
 import * as bcrypt from 'bcrypt';
+
+import { LoginUserDto } from './dto/loginUser.dto';
+import { AuthService } from 'src/auth/auth.service';
 @Injectable()
 export class UserService {
   
+  
     constructor(
 
-        @InjectModel('User') private readonly userModel: Model<User>,
-
+        @InjectModel('User') 
+        private readonly userModel: Model<User>,
+       
+        private readonly authService: AuthService,
     ) {
 
     }
@@ -20,8 +26,16 @@ export class UserService {
     // └─┘┴└─└─┘┴ ┴ ┴ └─┘  └─┘└─┘└─┘┴└─
 
     
-    async register(userData: CreateUserDto): Promise<Partial<User>> {
-        const user =  await this.userModel.create({
+    async register(userData: CreateUserDto): Promise<any> {
+      const email = userData.email ;
+      const userName = userData.userName ;
+        
+        
+         if (await this.userModel.findOne({email}) || await this.userModel.findOne({userName}))
+         
+         throw new NotFoundException(`Le username et le email doivent être unique` , `Le username et le email doivent être unique`);
+
+         const user =  await this.userModel.create({
           ...userData
         });
         
@@ -32,10 +46,52 @@ export class UserService {
         } catch (e) {
           throw new ConflictException(`Le username et le email doivent être unique`);
         }
-        return user ;
-    
+        return {
+          
+          accessToken: await this.authService.createAccessToken(user._id),
+        };
       }
+
+
+    // ┬  ┌─┐┌─┐┬┌┐┌
+    // │  │ ││ ┬││││
+    // ┴─┘└─┘└─┘┴┘└┘
+ async login( userData: LoginUserDto) {
+ 
+  const user = await this.findUserByEmail(userData.email);
+      
+     
+        await this.checkPassword(userData.password, user);
+        await user.save();
+        return {
+          accessToken: await this.authService.createAccessToken(user._id),
+        };
+    }
     
+    private async findUserByEmail(email: string): Promise<User> {
+      const user = await this.userModel.findOne({email});
+      
+      if (!user) {
+      
+        throw new NotFoundException('Wrong email or password.');
+      }
+      
+      return user;
+    }
+    private async checkPassword(attemptPass: string, user) {
+      const  hashedPass = await bcrypt.hash(attemptPass , user.salt)
+      const match = hashedPass === user.password;
+      if (!match) {
+          
+          throw new NotFoundException('Wrong email or password...');
+      }
+   
+      return match;
+    }
+
+
+
+  
 
 
 }
