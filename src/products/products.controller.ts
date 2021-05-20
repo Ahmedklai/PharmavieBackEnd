@@ -57,11 +57,25 @@ export class ProductsController {
     const product = await this.productsService.getSingleProduct(id);
     return product;
   }
+
+
   @Get('/get/category/:cat')
   async getProductByCategory(@Param('cat') cat) {
     const product = await this.productsService.findProductByCategory(cat);
     return product;
   }
+
+  @ApiHeader({
+    name: 'Bearer',
+    description: 'the token we need for auth.',
+  })
+  @ApiParam({ name: 'name', description: 'The first part of the name of your products' })
+  @Get('/get/name/:name')
+  async getProductByName(@Param('name') name) {
+    const product = await this.productsService.findProductByName(name);
+    return product;
+  }
+
 
   @ApiHeader({
     name: 'Bearer',

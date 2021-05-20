@@ -146,6 +146,20 @@ export class ProductsService {
     }
     return product;
   }
+  async findProductByName(name: string): Promise<Product> {
+    let product;
+    try {
+      var regexp = new RegExp("^"+ name);
+      product = await this.productModel.find({ name: regexp }).exec();
+    } catch (e) {
+      throw new NotFoundException('Could Not Found this product ');
+    }
+
+    if (!product) {
+      throw new NotFoundException('Could Not Found this product ');
+    }
+    return product;
+  }
 
   async removeProduct(id: string, user: User): Promise<any> {
     console.log(user);
