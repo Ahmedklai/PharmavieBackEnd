@@ -9,6 +9,7 @@ import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { PharmacieModule } from './pharmacie/pharmacie.module';
 import { ThrottlerModule } from '@nestjs/throttler/dist/throttler.module';
+
 const mongoUser = process.env.MONGO_USER;
 const mongoPassword = process.env.MONGO_PASSWORD;
 const mongoHostname = process.env.MONGO_HOSTNAME;
@@ -23,7 +24,7 @@ const mongoPort = process.env.MONGO_PORT;
     limit: 10,
   }),
 ],
-  controllers: [AppController ],
-  providers: [AppService],
+  controllers: [AppController,  ],
+  providers: [AppService, ],
 })
 export class AppModule {}
