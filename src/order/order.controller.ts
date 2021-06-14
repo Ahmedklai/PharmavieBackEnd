@@ -35,7 +35,18 @@ export class OrderController {
     @Post('/add')
     @UseGuards(JwtAuthGuard)
     async addOrder(@Body() order: CreateOrderDto, @User() user) {
-      return await this.orderService.insertProduct(order, user);
+      return await this.orderService.insertOrder(order, user);
+    }
+
+
+    @ApiHeader({
+      name: 'Bearer',
+      description: 'the token we need for auth.',
+    })
+    @Post('/getAll')
+    @UseGuards(JwtAuthGuard)
+    async getAllOrders() {
+      return await this.orderService.getOrders();
     }
 
 

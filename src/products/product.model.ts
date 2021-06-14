@@ -13,7 +13,7 @@ export const ProductsSchema = new mongoose.Schema(
     description: { type: String, required: true },
     publicPrice: { type: Number, required: true },
     path: { type: String, required: true },
-    category: { type: String, required: true },
+    category: { type: String, },
     laboratory: { type: String },
     conditioning: { type: String },
     dosage: { type: String },
