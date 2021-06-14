@@ -1,8 +1,6 @@
 import * as mongoose from 'mongoose';
 import mongoosePaginate from 'mongoose-paginate';
 import { Double } from 'typeorm';
-
-
 export const PharmacieSchema = new mongoose.Schema(
   {
     nomprenom: { type: String, required: true },
