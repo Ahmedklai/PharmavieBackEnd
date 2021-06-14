@@ -6,8 +6,6 @@ import {
     IsString,
   } from 'class-validator';
   import { ApiProperty } from '@nestjs/swagger';
-  import { isBoolean } from 'node:util';
-  
   export class CreatePharmacieDto {
     @ApiProperty({
       example: 'Ahmed Klai',
@@ -29,9 +27,7 @@ import {
     })
     @IsNotEmpty()
     @IsString()
-    readonly code: string;
-
-
+    readonly code:string;
     @ApiProperty({
       example: 'Tunis',
       description: 'The gouvernorat of the Pharmacy ',
@@ -40,7 +36,6 @@ import {
     @IsNotEmpty()
     @IsString()
     readonly gouvernorat: string;
-  
     @ApiProperty({
       example: '7100',
       description: 'Postal Code',
@@ -49,10 +44,9 @@ import {
     @IsNotEmpty()
     @IsString()
     readonly cp: string;
-  
     @ApiProperty({
       example: 'La marsa',
-      description: 'region of the Pharmacy ',
+      description: 'region of the Pharmacy',
       format: 'string',
     })
     @IsNotEmpty()
@@ -66,9 +60,15 @@ import {
     })
     @IsNotEmpty()
     @IsString()
-    readonly tel: string;
+    readonly tel:string;
 
-
+    @ApiProperty({
+      example: 'number of : 0 - 5',
+      description: 'rating of the product between 0 and 5',
+      format: 'number',
+    })
+    @IsNotEmpty()
+    readonly rating:number;
     @ApiProperty({
         example: '71 134 122',
         description: 'Main fax number',
@@ -76,8 +76,6 @@ import {
     })
     @IsNotEmpty()
     readonly fax;
-
-
     @ApiProperty({
       example: 'Place 7 Novembre, 2070 la marsa',
       description: 'the complete adresse ',
@@ -86,8 +84,6 @@ import {
     @IsNotEmpty()
     @IsString()
     readonly adresse: string;
-
-    
     @ApiProperty({
         example: 9.52596037231,
         description: 'the longitude of the Pharmacy location ',
@@ -137,7 +133,6 @@ import {
         example: "08H a 17H30",
         description: 'Hour of work in the afternoon',
         format: 'string',
-     
     })
     @IsNotEmpty()
     readonly hapresmidi;

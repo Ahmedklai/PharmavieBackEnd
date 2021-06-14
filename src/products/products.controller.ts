@@ -14,7 +14,7 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
-import { Product } from './product.model';
+import { Comment, Product } from './product.model';
 import { ProductsService } from './products.service';
 import { User } from 'src/user/decorators/user.decorator';
 import { CreateProductDto } from './dto/createProduc.dto';
@@ -58,7 +58,6 @@ export class ProductsController {
     return product;
   }
 
-
   @Get('/get/category/:cat')
   async getProductByCategory(@Param('cat') cat) {
     const product = await this.productsService.findProductByCategory(cat);
@@ -77,13 +76,15 @@ export class ProductsController {
     name: 'Bearer',
     description: 'the token we need for auth.',
   })
-  @ApiParam({ name: 'name', description: 'The first part of the name of your products' })
+  @ApiParam({
+    name: 'name',
+    description: 'The first part of the name of your products',
+  })
   @Get('/get/name/:name')
   async getProductByName(@Param('name') name) {
     const product = await this.productsService.findProductByName(name);
     return product;
   }
-
 
   @ApiHeader({
     name: 'Bearer',
@@ -110,7 +111,6 @@ export class ProductsController {
   @UseGuards(JwtAuthGuard)
   async updateProduct(@User() user, @Body() product: Product) {
     const addProduct = await this.productsService.updateProduct(product, user);
-
     return {
       statusCode: HttpStatus.OK,
       message: 'Product  updated successfully',
@@ -135,5 +135,45 @@ export class ProductsController {
       message: 'promotions are here',
       data: promotions,
     };
+  }
+  @ApiHeader({
+    name: 'Bearer',
+    description: 'the token we need for auth.',
+  })
+  @ApiParam({
+    name: 'product id',
+    description: 'product id to add comment',
+  })
+  @Post('/add-comment/:productId')
+  async addComment(@Param('productId') productId,@Body() newComment:Comment,@User() user) {
+    const comment = await this.productsService.addComment(newComment,user,productId);
+    return comment;
+  }
+  
+  @ApiHeader({
+    name: 'Bearer',
+    description: 'the token we need for auth.',
+  })
+  @ApiParam({
+    name: 'product id',
+    description: 'product id to get comments',
+  })
+  @Get('/comments/:productId')
+  async getComments(@Param('productId') productId) {
+    const comments = await this.productsService.getComments(productId);
+    return comments;
+  }
+  @ApiHeader({
+    name: 'Bearer',
+    description: 'the token we need for auth.',
+  })
+  @ApiParam({
+    name: 'name',
+    description: 'The first part of the name of your products',
+  })
+  @Delete('/comment/:productId/:commentId')
+   async deleteComment(@Param('productId') productId,@Param('commentId') commentId) {
+    const comments = await this.productsService.deleteComment(productId,commentId)
+     return comments;
   }
 }

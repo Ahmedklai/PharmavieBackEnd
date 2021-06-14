@@ -21,7 +21,7 @@ export class CreateProductDto {
   @MinLength(5)
   @MaxLength(255)
   readonly name: string;
-
+  
   @ApiProperty({
     example: 'Body exmaple ...',
     description: 'Main description of product',
