@@ -61,6 +61,12 @@ import {
     @IsNotEmpty()
     @IsString()
     readonly tel:string;
+
+    @ApiProperty({
+      example: 'number of : 0 - 5',
+      description: 'rating of the product between 0 and 5',
+      format: 'number',
+    })
     @IsNotEmpty()
     readonly rating:number;
     @ApiProperty({
@@ -127,7 +133,6 @@ import {
         example: "08H a 17H30",
         description: 'Hour of work in the afternoon',
         format: 'string',
-     
     })
     @IsNotEmpty()
     readonly hapresmidi;

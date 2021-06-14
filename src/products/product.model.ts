@@ -32,7 +32,7 @@ export const ProductsSchema = new mongoose.Schema(
     specification: { type: String },
     DurationOfConversation: { type: String },
     use: { type: String },
-    pharmacies: { type: [PharmacieSchema] },
+    pharmacies: [{type: mongoose.Schema.Types.ObjectId, ref: 'Pharmacy'}],
     contreIndications: { type: String },
     tableOfContent: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Content' }],
     isBestSelling: { type: Boolean },
@@ -51,7 +51,7 @@ export interface Product extends mongoose.Document {
   createdAt: string;
   category: string;
   rating: number;
-  comments: string[];
+  comments: Comment[];
   name: string;
   description: string;
   publicPrice: number;
@@ -70,5 +70,5 @@ export interface Product extends mongoose.Document {
   tableOfContent: [{ vitamine: string; percentage: number }];
   newPrice: number;
   isBestSelling: number;
-  pharmacies: string[];
+  pharmacies: Pharmacie[];
 }

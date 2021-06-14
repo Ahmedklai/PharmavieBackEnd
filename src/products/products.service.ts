@@ -91,12 +91,16 @@ export class ProductsService {
       publicPrice: product.publicPrice,
       path: product.path,
       form: product.form,
-      isPromotion: product.isPromotion,
-      isBestSelling: product.isBestSelling,
       laboratory: product.laboratory,
-      tableOfContent :   product.tableOfContent ,
-      pharmacies : product.pharmacies 
-      
+      newPrice:product.newPrice,
+      conditioning:product.conditioning,
+      isBestSelling:product.isBestSelling,
+      isPromotion:product.isPromotion,
+      rating:product.rating,
+      presentation:product.presentation,
+      specification:product.specification,
+      DurationOfConversation:product.DurationOfConversation,
+      pharmacies:product.pharmacies
     }));
   }
 
@@ -116,6 +120,15 @@ export class ProductsService {
       path: product.path,
       form: product.form,
       laboratory: product.laboratory,
+      newPrice:product.newPrice,
+      conditioning:product.conditioning,
+      isBestSelling:product.isBestSelling,
+      isPromotion:product.isPromotion,
+      rating:product.rating,
+      presentation:product.presentation,
+      specification:product.specification,
+      DurationOfConversation:product.DurationOfConversation,
+      pharmacies:product.pharmacies
     };
   }
   private async findProduct(id: string): Promise<Product> {
