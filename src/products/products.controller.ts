@@ -65,6 +65,14 @@ export class ProductsController {
     return product;
   }
 
+  @Get('/get/price/:min/:max/:lab')
+  async getProductByPrice(@Param('min') min ,@Param('max') max ,@Param('lab') lab   ) {
+    console.log(lab);
+    
+    const product = await this.productsService.filtreProduct(min , max , lab);
+    return product;
+  }
+
   @ApiHeader({
     name: 'Bearer',
     description: 'the token we need for auth.',
