@@ -66,9 +66,6 @@ export class CreateProductDto {
   @IsString()
   readonly publicPrice: number;
 
-
-
-
   @ApiProperty({
     description:
       'if the product has promotion or not , if yes , new price is required',
@@ -179,6 +176,9 @@ export class CreateProductDto {
   @IsNotEmpty()
   @IsString()
   readonly contreIndications: string;
+
+
+  
 
 
 

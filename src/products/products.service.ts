@@ -146,6 +146,38 @@ export class ProductsService {
     }
     return product;
   }
+
+  async filtreProduct(minPrice: any , maxPrice : any , lab: string): Promise<Product> {
+    let product;
+    
+    try {
+      minPrice != "null" && lab != "null" ? 
+      product = await this.productModel.find({ publicPrice: { $gte:minPrice, $lte: maxPrice } , laboratory : lab }).exec() 
+      : minPrice == "null" ? 
+      product = await this.productModel.find( { laboratory : lab }).exec() :
+      product = await this.productModel.find({ publicPrice: { $gte:minPrice, $lte: maxPrice }}).exec() 
+      
+      
+
+    } catch (e) {
+      throw new NotFoundException('Could Not Found this product ');
+    }
+
+    if (!product) {
+      throw new NotFoundException('Could Not Found this product ');
+    }
+    return product;
+  }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   async findProductByName(name: string): Promise<Product> {
     let product;
     try {
