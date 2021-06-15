@@ -14,14 +14,7 @@ import { Product } from 'src/products/product.model';
  export class CreateOrderDto {
   
  
-   @ApiProperty({
-     example: '{name : "Pharmacie XYZ , adresse : "tu" ...}',
-     description: 'Pharmacie Object',
-     format: 'string',
-   })
-   @IsNotEmpty()
-   @IsString()
-   readonly pharrmacie: Pharmacie;
+   
    @ApiProperty({
      example: '{product1 , product2 .....}',
      description: 'Table of products ',
