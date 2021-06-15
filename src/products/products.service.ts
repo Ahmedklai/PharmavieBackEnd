@@ -83,6 +83,8 @@ export class ProductsService {
       .skip(Number(options.offset))
       .limit(Number(options.limit))
       .exec();
+
+      
     return products.map((product) => ({
       id: product.id,
       createdAt: product.createdAt,
@@ -128,7 +130,8 @@ export class ProductsService {
       presentation:product.presentation,
       specification:product.specification,
       DurationOfConversation:product.DurationOfConversation,
-      pharmacies:product.pharmacies
+      pharmacies:product.pharmacies,
+      
     };
   }
   private async findProduct(id: string): Promise<Product> {
@@ -161,10 +164,13 @@ export class ProductsService {
     return product;
   }
 
-  async filtreProduct(minPrice: any , maxPrice : any , lab: string): Promise<Product> {
+  async filtreProduct(minPrice: any , maxPrice : any , lab: string , rating : any ): Promise<Product> {
     let product;
     
     try {
+
+      rating != "null" ? 
+      product = await this.productModel.find({ publicPrice: { $gte:minPrice, $lte: maxPrice } , laboratory : lab , rating : rating }).exec() : 
       minPrice != "null" && lab != "null" ? 
       product = await this.productModel.find({ publicPrice: { $gte:minPrice, $lte: maxPrice } , laboratory : lab }).exec() 
       : minPrice == "null" ? 
