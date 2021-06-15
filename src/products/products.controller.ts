@@ -63,7 +63,7 @@ export class ProductsController {
     return product;
   }
 
-  @Get('/get/price/:min/:max/:lab/:rating')
+  @Get('/get/:min/:max/:lab/:rating')
   async getProductByPrice(@Param('min') min ,@Param('max') max ,@Param('lab') lab  ,@Param('rating') rating   ) {
     console.log(lab);
     
