@@ -40,7 +40,6 @@ export class ProductsController {
     description: 'the token we need for auth.',
   })
   @Get('/getAll')
-  @UseGuards(JwtAuthGuard)
   async getAllProducts(@Req() req) {
     const products = await this.productsService.getProducts(req.query);
     return products;

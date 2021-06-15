@@ -24,7 +24,7 @@ export class QueryConfigDto {
     @IsNotEmpty()
     @IsString()
    
-    readonly limit: number;
+    readonly limit: number; 
 
 
 
