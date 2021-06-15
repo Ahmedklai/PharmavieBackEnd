@@ -136,6 +136,7 @@ export class ProductsController {
     name: 'product id',
     description: 'product id to add comment',
   })
+  @UseGuards(JwtAuthGuard)
   @Post('/add-comment/:productId')
   async addComment(@Param('productId') productId,@Body() newComment:Comment,@User() user) {
     const comment = await this.productsService.addComment(newComment,user,productId);
@@ -163,6 +164,7 @@ export class ProductsController {
     name: 'name',
     description: 'The first part of the name of your products',
   })
+  @UseGuards(JwtAuthGuard)
   @Delete('/comment/:productId/:commentId')
    async deleteComment(@Param('productId') productId,@Param('commentId') commentId) {
     const comments = await this.productsService.deleteComment(productId,commentId)
