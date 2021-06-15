@@ -6,13 +6,20 @@ const ContentScema = new mongoose.Schema({
   percentage: { type: Number, required: true },
 });
 mongoose.model('Content', ContentScema);
-
+const CommentSchema = new mongoose.Schema({
+  text:{type:String},
+  username:{type:String,required:true},
+},{timestamps:true});
+mongoose.model('Comment',CommentSchema);
 export const ProductsSchema = new mongoose.Schema(
   {
     name: { type: String, required: true },
     description: { type: String, required: true },
     publicPrice: { type: Number, required: true },
     path: { type: String, required: true },
+    category: { type: String },
+    rating: { type: Number },
+    comments: [CommentSchema],
     laboratory: { type: String },
     conditioning: { type: String },
     dosage: { type: String },
@@ -25,18 +32,28 @@ export const ProductsSchema = new mongoose.Schema(
     specification: { type: String },
     DurationOfConversation: { type: String },
     use: { type: String },
-    pharmacies: { type: [PharmacieSchema]},
+    pharmacies: [PharmacieSchema],
     contreIndications: { type: String },
     tableOfContent: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Content' }],
     isBestSelling: { type: Boolean },
   },
   { timestamps: true },
 );
+export const ProductModel = mongoose.model('Product',ProductsSchema);
 
+export interface Comment extends mongoose.Document {
+  username:string;
+  text:string;
+  createAt:string;
+  id: string;
+}
 export interface Product extends mongoose.Document {
   isPromotion: true;
   id: string;
   createdAt: string;
+  category: string;
+  rating: number;
+  comments: Comment[];
   name: string;
   description: string;
   publicPrice: number;
@@ -55,5 +72,5 @@ export interface Product extends mongoose.Document {
   tableOfContent: [{ vitamine: string; percentage: number }];
   newPrice: number;
   isBestSelling: number;
-  pharmacies : string[] ;
+  pharmacies: string[];
 }

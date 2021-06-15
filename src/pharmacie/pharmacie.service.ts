@@ -71,6 +71,7 @@ export class PharmacieService {
         if (user.role == 'admin') {
           let pharmacie;
           try {
+            
             pharmacie = await this.pharmacyModel.findByIdAndDelete(id).exec();
           } catch (e) {
             throw new NotFoundException(e);

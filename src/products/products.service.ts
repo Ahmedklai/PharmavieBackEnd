@@ -4,12 +4,13 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
+import { Exception } from 'handlebars/runtime';
 import { Model } from 'mongoose';
 import { User } from 'src/user/entity/user.model';
 import { CreateProductDto } from './dto/createProduc.dto';
 import { QueryConfigDto } from './dto/queryConfig.dto';
 
-import { Product, ProductsSchema } from './product.model';
+import { Comment, Product, ProductsSchema } from './product.model';
 @Injectable()
 export class ProductsService {
   constructor(
@@ -90,12 +91,16 @@ export class ProductsService {
       publicPrice: product.publicPrice,
       path: product.path,
       form: product.form,
-      isPromotion: product.isPromotion,
-      isBestSelling: product.isBestSelling,
       laboratory: product.laboratory,
-      tableOfContent :   product.tableOfContent ,
-      pharmacies : product.pharmacies 
-      
+      newPrice:product.newPrice,
+      conditioning:product.conditioning,
+      isBestSelling:product.isBestSelling,
+      isPromotion:product.isPromotion,
+      rating:product.rating,
+      presentation:product.presentation,
+      specification:product.specification,
+      DurationOfConversation:product.DurationOfConversation,
+      pharmacies:product.pharmacies
     }));
   }
 
@@ -105,7 +110,7 @@ export class ProductsService {
 
 
   async getSingleProduct(productId: string) {
-    const product = await this.findProduct(productId);
+    const product = await  this.findProduct(productId);
     return {
       id: product.id,
       createdAt: product.createdAt,
@@ -115,12 +120,22 @@ export class ProductsService {
       path: product.path,
       form: product.form,
       laboratory: product.laboratory,
+      newPrice:product.newPrice,
+      conditioning:product.conditioning,
+      isBestSelling:product.isBestSelling,
+      isPromotion:product.isPromotion,
+      rating:product.rating,
+      presentation:product.presentation,
+      specification:product.specification,
+      DurationOfConversation:product.DurationOfConversation,
+      pharmacies:product.pharmacies
     };
   }
   private async findProduct(id: string): Promise<Product> {
     let product;
     try {
-      product = await this.productModel.findById(id).exec();
+      product =await this.productModel.findById(id).populate('Pharmacy').exec();
+      // console.log((await this.productModel.findById(id)).populated('Pharmacy').exec())
     } catch (e) {
       throw new NotFoundException('Could Not Found this product ');
     }
@@ -178,7 +193,49 @@ export class ProductsService {
     }
     throw new UnauthorizedException('ONLY ADMINS CAN DELETE PRODUCTS');
   }
-
+  async addComment(newComment:Comment,user:User,productId:string){
+    try {
+      let product = await this.productModel.findById(productId);
+      if (!product) {
+        throw new NotFoundException('No Product with this id');
+      }
+      newComment.username = user.userName;
+      product.comments.push(newComment) ;
+      product.save();
+      return newComment;
+    } catch (error) {
+      console.error(error);
+      throw  new NotFoundException('No Product with this id');
+    }
+  }
+  async getComments(productId:string){
+    try {
+      let product = await this.productModel.findById(productId);
+      if (!product) {
+        throw new NotFoundException('No Product with this id');
+      }
+      return product.comments;
+    } catch (error) {
+      throw  new NotFoundException('No Product with this id');
+    }
+  }
+  async deleteComment(productId:string,commentId:string){
+    try {
+      let product = await this.productModel.findById(productId);
+      if (!product) {
+        throw new NotFoundException('No Product with this id');
+      }
+      let index = product.comments.findIndex(comment=>comment.id === commentId);
+      if(index === -1){
+        throw new NotFoundException('Comment not found');
+      }
+      product.comments.splice(index,1);
+      product.save();
+      return product.comments;
+    } catch (error) {
+      throw  new NotFoundException(error.message);
+    }
+  }
   async updateProduct(newProduct: Product, user: User): Promise<any> {
     if (user.role == 'admin') {
       if (!newProduct.id) {

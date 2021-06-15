@@ -1,8 +1,6 @@
 import * as mongoose from 'mongoose';
 import mongoosePaginate from 'mongoose-paginate';
 import { Double } from 'typeorm';
-
-
 export const PharmacieSchema = new mongoose.Schema(
   {
     nomprenom: { type: String, required: true },
@@ -24,7 +22,6 @@ export const PharmacieSchema = new mongoose.Schema(
   },
   { timestamps: true },
 );
-
 export interface Pharmacie extends mongoose.Document {
     nomprenom: string;
     code: string;

@@ -21,7 +21,7 @@ export class CreateProductDto {
   @MinLength(5)
   @MaxLength(255)
   readonly name: string;
-
+  
   @ApiProperty({
     example: 'Body exmaple ...',
     description: 'Main description of product',
@@ -65,6 +65,10 @@ export class CreateProductDto {
   @IsNotEmpty()
   @IsString()
   readonly publicPrice: number;
+
+
+
+
   @ApiProperty({
     description:
       'if the product has promotion or not , if yes , new price is required',
@@ -72,6 +76,8 @@ export class CreateProductDto {
   })
   @IsNotEmpty()
   readonly isPromotion;
+
+
   @ApiProperty({
     example: '2,5 Dt',
     description: 'new price after promotion of the product',
@@ -80,10 +86,100 @@ export class CreateProductDto {
   @IsNotEmpty()
   @IsString()
   readonly newPrice: number;
+
+
+
   @ApiProperty({
     description: 'if the product is best selling or not or not',
     format: 'bool',
   })
   @IsNotEmpty()
   readonly isBestSelling;
+
+  
+  @ApiProperty({
+    example: 'Conditionning',
+    description: 'Conditionning of the  product',
+    format: 'string',
+  })
+  @IsNotEmpty()
+  @IsString()
+  readonly conditioning: string;
+
+  @ApiProperty({
+    example: 'dosage',
+    description: 'how ot dose  of the  product',
+    format: 'string',
+  })
+  @IsNotEmpty()
+  @IsString()
+  readonly dosage: string;
+
+
+  @ApiProperty({
+    example: 'presentation',
+    description: 'the presentation  of the  product',
+    format: 'string',
+  })
+  @IsNotEmpty()
+  @IsString()
+  readonly presentation: string;
+
+  @ApiProperty({
+    example: 'therapeuticClass',
+    description: 'the therapeuticClass  of the  product',
+    format: 'string',
+  })
+  @IsNotEmpty()
+  @IsString()
+  readonly therapeuticClass: string;
+
+
+  @ApiProperty({
+    example: 'subClass',
+    description: 'the subClass  of the  product',
+    format: 'string',
+  })
+  @IsNotEmpty()
+  @IsString()
+  readonly subClass: string;
+
+  @ApiProperty({
+    example: 'specification',
+    description: 'the specification  of the  product',
+    format: 'string',
+  })
+  @IsNotEmpty()
+  @IsString()
+  readonly specification: string;
+
+  @ApiProperty({
+    example: 'DurationOfConversation',
+    description: 'the DurationOfConversation  of the  product',
+    format: 'string',
+  })
+  @IsNotEmpty()
+  @IsString()
+  readonly DurationOfConversation: string;
+
+  @ApiProperty({
+    example: 'use',
+    description: 'the use  of the  product',
+    format: 'string',
+  })
+  @IsNotEmpty()
+  @IsString()
+  readonly use: string;
+
+  @ApiProperty({
+    example: 'contreIndications',
+    description: 'the contreIndications  of the  product',
+    format: 'string',
+  })
+  @IsNotEmpty()
+  @IsString()
+  readonly contreIndications: string;
+
+
+
 }
