@@ -22,7 +22,6 @@ export const PharmacieSchema = new mongoose.Schema(
   },
   { timestamps: true },
 );
-
 export interface Pharmacie extends mongoose.Document {
     nomprenom: string;
     code: string;

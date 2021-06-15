@@ -112,7 +112,7 @@ export class ProductsService {
 
 
   async getSingleProduct(productId: string) {
-    const product = await this.findProduct(productId);
+    const product = await  this.findProduct(productId);
     return {
       id: product.id,
       createdAt: product.createdAt,
@@ -137,7 +137,8 @@ export class ProductsService {
   private async findProduct(id: string): Promise<Product> {
     let product;
     try {
-      product = await this.productModel.findById(id).exec();
+      product =await this.productModel.findById(id).populate('Pharmacy').exec();
+      // console.log((await this.productModel.findById(id)).populated('Pharmacy').exec())
     } catch (e) {
       throw new NotFoundException('Could Not Found this product ');
     }
@@ -241,6 +242,7 @@ export class ProductsService {
       product.save();
       return newComment;
     } catch (error) {
+      console.error(error);
       throw  new NotFoundException('No Product with this id');
     }
   }
@@ -261,11 +263,15 @@ export class ProductsService {
       if (!product) {
         throw new NotFoundException('No Product with this id');
       }
-      product.comments.splice(product.comments.findIndex(comment=>comment.id === commentId),1);
+      let index = product.comments.findIndex(comment=>comment.id === commentId);
+      if(index === -1){
+        throw new NotFoundException('Comment not found');
+      }
+      product.comments.splice(index,1);
       product.save();
       return product.comments;
     } catch (error) {
-      throw  new NotFoundException('No Product with this id');
+      throw  new NotFoundException(error.message);
     }
   }
   async updateProduct(newProduct: Product, user: User): Promise<any> {
