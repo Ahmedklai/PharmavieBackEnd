@@ -154,7 +154,7 @@ export class ProductsService {
   async findProductByCategory(category: string): Promise<Product> {
     let product;
     try {
-      product = await this.productModel.find({ form: category }).exec();
+      product = await this.productModel.find({ form: { $regex : new RegExp(category, "i") } }).exec();
     } catch (e) {
       throw new NotFoundException('Could Not Found this product ');
     }
@@ -170,14 +170,26 @@ export class ProductsService {
     
     try {
 
-      rating != "null" ? 
-      product = await this.productModel.find({ publicPrice: { $gte:minPrice, $lte: maxPrice } , laboratory : lab , rating : rating }).exec() : 
-      minPrice != "null" && lab != "null" ? 
-      product = await this.productModel.find({ publicPrice: { $gte:minPrice, $lte: maxPrice } , laboratory : lab }).exec() 
-      : minPrice == "null" ? 
-      product = await this.productModel.find( { laboratory : lab }).exec() :
-      product = await this.productModel.find({ publicPrice: { $gte:minPrice, $lte: maxPrice }}).exec() 
+      rating != "null" &&  minPrice != "null" && lab != "null" ? 
+      product = await this.productModel.find({ publicPrice: { $gte:minPrice, $lte: maxPrice } , laboratory : { $regex : new RegExp(lab, "i") } , rating : rating }).exec() : 
+      minPrice != "null" && lab != "null" && rating == "null" ? 
+      product = await this.productModel.find({ publicPrice: { $gte:minPrice, $lte: maxPrice } , laboratory : { $regex : new RegExp(lab, "i") } }).exec() 
+      : minPrice != "null" && lab == "null" && rating == "null" ? 
+      product = await this.productModel.find({ publicPrice: { $gte:minPrice, $lte: maxPrice }  }).exec() 
+      : minPrice == "null" && lab != "null" && rating == "null" ? 
+      product = await this.productModel.find({  laboratory : { $regex : new RegExp(lab, "i") }}).exec() 
+      : minPrice == "null" && lab != "null" && rating != "null" ? 
+      product = await this.productModel.find({  laboratory : { $regex : new RegExp(lab, "i") } , rating : rating}).exec() 
+      : minPrice != "null" && lab == "null" && rating != "null" ? 
+      product = await this.productModel.find({ publicPrice: { $gte:minPrice, $lte: maxPrice } , rating : rating}).exec() 
+      : minPrice == "null" && lab == "null" && rating != "null" ? 
+      product = await this.productModel.find({   rating : rating}).exec() 
+      :  
+      product = await this.productModel.find().exec() 
       
+      
+      
+     
       
 
     } catch (e) {
@@ -203,7 +215,7 @@ export class ProductsService {
     let product;
     try {
       var regexp = new RegExp("^"+ name);
-      product = await this.productModel.find({ name: regexp }).exec();
+      product = await this.productModel.find({ name: { $regex : new RegExp(regexp, "i") } }).exec();
     } catch (e) {
       throw new NotFoundException('Could Not Found this product ');
     }
